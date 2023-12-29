@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import { getDatabase, ref, set, push, onValue } from "firebase/database";
+import { getDatabase, ref, set, push, onValue, remove } from "firebase/database";
 
 function App() {
 
@@ -25,13 +25,16 @@ function App() {
     onValue(todoRef, (snapshot) => {
       let arr = []
       snapshot.forEach((item) => {
-        arr.push(item.val())
+        arr.push({ ...item.val(), id: item.key })
       })
       setTodo(arr)
     });
   }, [])
 
-
+  // delete data realtime using firebase
+  let handleDelete = (id) => {
+    remove(ref(db, 'alltodo/' + id))
+  }
 
 
   return (
@@ -43,7 +46,10 @@ function App() {
       <ul>
         {
           todo.map((item, index) => (
-            <li key={index}>{item.todotext}</li>
+            <li key={index} >
+              {item.todotext}
+              <button onClick={() => handleDelete(item.id)}>delete</button>
+            </li>
           ))
         }
       </ul>

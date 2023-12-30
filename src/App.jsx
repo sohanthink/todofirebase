@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import { getDatabase, ref, set, push, onValue, remove } from "firebase/database";
+import { getDatabase, ref, set, push, onValue, remove, update } from "firebase/database";
 
 function App() {
 
   const db = getDatabase();
   let [text, setText] = useState("");
 
-  // write data on firebase
+  // write data on firebase ===================
   let handleForm = (e) => {
     setText(e.target.value);
   }
@@ -19,7 +19,7 @@ function App() {
   }
 
   let [todo, setTodo] = useState([]);
-  // Read data on firebase
+  // Read data on firebase ======================
   const todoRef = ref(db, 'alltodo');
   useEffect(() => {
     onValue(todoRef, (snapshot) => {
@@ -31,9 +31,33 @@ function App() {
     });
   }, [])
 
-  // delete data realtime using firebase
+  // delete data realtime using firebase =========
   let handleDelete = (id) => {
     remove(ref(db, 'alltodo/' + id))
+  }
+
+  // Update data realtime using firebase =========
+
+  let [todoId, setTodoId] = useState()
+
+  let handleUpdate = (item) => {
+    setTodoId(item.id);
+    setToggleBtn(true)
+    setText(item.todotext)
+  }
+
+  let [toggleBtn, setToggleBtn] = useState(false);
+  let handleEdit = () => {
+    console.log(todoId);
+    console.log(text);
+    update(ref(db, 'alltodo/' + todoId), {
+      todotext: text,
+    })
+  }
+
+
+  let handleAllDelete = () => {
+    remove(ref(db, 'alltodo/'))
   }
 
 
@@ -41,14 +65,22 @@ function App() {
     <>
       <div>
         <input placeholder='Type something to add' value={text} onChange={handleForm} />
-        <button onClick={handleClick}>Add</button>
+        {
+          toggleBtn
+            ?
+            <button onClick={handleEdit}>Edit</button>
+            :
+            <button onClick={handleClick}>Add</button>
+        }
       </div>
+      <button onClick={handleAllDelete}>All Delete</button>
       <ul>
         {
           todo.map((item, index) => (
             <li key={index} >
               {item.todotext}
               <button onClick={() => handleDelete(item.id)}>delete</button>
+              <button onClick={() => handleUpdate(item)}>Update</button>
             </li>
           ))
         }

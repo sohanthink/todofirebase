@@ -52,6 +52,9 @@ function App() {
     console.log(text);
     update(ref(db, 'alltodo/' + todoId), {
       todotext: text,
+    }).then(() => {
+      setText('');
+      setToggleBtn(false);
     })
   }
 

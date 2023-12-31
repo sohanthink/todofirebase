@@ -1,0 +1,48 @@
+.todo {
+    height: 600px;
+    width: 400px;
+    background-color: rgb(44, 44, 82);
+    margin: 0 auto;
+    color: white;
+    border-radius: 10px;
+}
+
+.todo .content h2 {
+    text-align: center;
+    padding-top: 30px;
+}
+
+.todo .content {
+    text-align: center;
+}
+
+.todo .content input {
+    height: 25px;
+    width: 280px;
+}
+
+.todo .content input::placeholder {
+    padding-left: 10px;
+}
+
+.todo .content button {
+    padding: 6px 10px;
+}
+
+.todo .output ul {
+    width: 83%;
+    margin-left: -6px;
+}
+
+.todo .output ul li {
+    list-style: none;
+    padding: 10px 10px;
+    border: 1px solid white;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.todo .output ul .flex {
+    display: flex;
+    justify-content: space-between;
+}

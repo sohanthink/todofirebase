@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getDatabase, ref, set, push, onValue } from "firebase/database";
+import { getDatabase, ref, set, push, onValue, remove } from "firebase/database";
 
 
 
@@ -14,7 +14,7 @@ const Todo = () => {
     let handleAdd = () => {
         set(push(ref(db, 'newtodo')), {
             todotext: text,
-        })
+        }).then(console.log('added'))
     }
 
 
@@ -25,11 +25,19 @@ const Todo = () => {
         onValue(todoRef, (snapshot) => {
             let arr = []
             snapshot.forEach((item) => {
-                arr.push({ ...item.val() })
+                arr.push({ ...item.val(), id: item.key })
             })
             setTodo(arr)
         });
     }, [])
+
+
+
+
+    let handleDelete = (id) => {
+        remove(ref(db, 'newtodo/' + id)).then(console.log('deleted'))
+    }
+
 
     return (
         <>
@@ -47,7 +55,7 @@ const Todo = () => {
                                     <div>{item.todotext}</div>
                                     <div className="buttons">
                                         <button>Edit</button>
-                                        <button>Delete</button>
+                                        <button onClick={() => handleDelete(item.id)}>Delete</button>
                                     </div>
                                 </li>
                             ))

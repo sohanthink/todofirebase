@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
-import { getDatabase, ref, set, push } from "firebase/database";
+import React, { useEffect, useState } from 'react'
+import { getDatabase, ref, set, push, onValue } from "firebase/database";
 
 
 
 const Todo = () => {
 
+    // write data operation on firebase
     let [text, setText] = useState('')
     const db = getDatabase();
     let handleForm = (e) => {
@@ -17,12 +18,18 @@ const Todo = () => {
     }
 
 
-
-
-
-
-
-
+    // Read data operation
+    let [todo, setTodo] = useState([])
+    const todoRef = ref(db, 'newtodo');
+    useEffect(() => {
+        onValue(todoRef, (snapshot) => {
+            let arr = []
+            snapshot.forEach((item) => {
+                arr.push({ ...item.val() })
+            })
+            setTodo(arr)
+        });
+    }, [])
 
     return (
         <>
@@ -34,20 +41,17 @@ const Todo = () => {
                 </div>
                 <div className="output">
                     <ul>
-                        <li className='flex'>
-                            <div>Something Added</div>
-                            <div className="buttons">
-                                <button>Edit</button>
-                                <button>Delete</button>
-                            </div>
-                        </li>
-                        <li className='flex'>
-                            <div>Something Added</div>
-                            <div className="buttons">
-                                <button>Edit</button>
-                                <button>Delete</button>
-                            </div>
-                        </li>
+                        {
+                            todo.map((item, index) => (
+                                <li key={index} className='flex'>
+                                    <div>{item.todotext}</div>
+                                    <div className="buttons">
+                                        <button>Edit</button>
+                                        <button>Delete</button>
+                                    </div>
+                                </li>
+                            ))
+                        }
                     </ul>
                 </div>
             </div>

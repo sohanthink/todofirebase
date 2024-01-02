@@ -1,6 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { getDatabase, ref, set, push } from "firebase/database";
+
+
 
 const Todo = () => {
+
+    let [text, setText] = useState('')
+    const db = getDatabase();
+    let handleForm = (e) => {
+        setText(e.target.value);
+    }
+    let handleAdd = () => {
+        set(push(ref(db, 'newtodo')), {
+            todotext: text,
+        })
+    }
+
+
+
+
+
+
+
 
 
     return (
@@ -8,8 +29,8 @@ const Todo = () => {
             <div className="todo">
                 <div className="content">
                     <h2>To Do App</h2>
-                    <input placeholder='Add Something' />
-                    <button>Add</button>
+                    <input onChange={handleForm} placeholder='Add Something' value={text} />
+                    <button onClick={handleAdd}>Add</button>
                 </div>
                 <div className="output">
                     <ul>

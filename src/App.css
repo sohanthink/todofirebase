@@ -1,3 +1,7 @@
+body {
+    /* background-color: #19072b; */
+}
+
 .todo {
     height: 600px;
     width: 400px;
@@ -6,6 +10,10 @@
     color: white;
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.4) 0px 30px 90px;
+    /* position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); */
 }
 
 .todo .content h2 {
@@ -46,4 +54,56 @@
 .todo .output ul .flex {
     display: flex;
     justify-content: space-between;
+}
+
+
+
+
+
+.calculator {
+    padding: 50px 100px;
+    height: 600px;
+    background-color: antiquewhite;
+    margin-top: 100px;
+}
+
+.calculator .main {
+    display: flex;
+    height: 100%;
+}
+
+.calculator .main .left {
+    width: 50%;
+    position: relative;
+}
+
+.calculator .main .left .sub {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.calculator .main .left .multiply {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.calculator .main .left .devide {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.calculator .main .left .result {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%, -50%);
+    font-size: 40px;
+}
+
+.calculator .main .right {
+    width: 50%;
+    padding-left: 100px;
 }

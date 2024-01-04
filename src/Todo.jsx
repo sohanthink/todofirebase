@@ -55,7 +55,8 @@ const Todo = () => {
             todotext: text
         }).then(
             setText(''),
-            console.log('updated')
+            console.log('updated'),
+            setToggleBtn(false)
         )
     }
 
